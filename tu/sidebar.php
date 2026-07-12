@@ -1,7 +1,7 @@
 <div class="sidebar">
 
     <div class="logo">
-        <h2>CUTI APP</h2>
+        <h2>SIMATIC</h2>
     </div>
 
     <ul>
