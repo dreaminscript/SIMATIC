@@ -9,7 +9,7 @@
         <li><a href="status.php">Status Pengajuan Cuti</a></li>
 
         <li class="logout">
-            <a href="#">Logout</a>
+            <a href="../logout.php">Logout</a>
         </li>
     </ul>
 

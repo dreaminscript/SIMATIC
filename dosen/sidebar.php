@@ -7,7 +7,7 @@
     <ul>
         <li><a href="dashboard.php">Dashboard</a></li>
         <li><a href="pengajuan.php">Pengajuan Cuti</a></li>
-        <li class="logout"><a href="#">Logout</a></li>
+        <li class="logout"><a href="../logout.php">Logout</a></li>
     </ul>
 
 </div>

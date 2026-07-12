@@ -20,8 +20,25 @@ if (isset($_POST['login'])) {
                 $_SESSION['login'] = true;
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['role'] = $row['role'];
-                
-                header("Location: dashboard.php");
+
+                // Redirect sesuai role ke folder masing-masing
+                switch ($row['role']) {
+                    case 'admin':
+                        header("Location: admin/dashboard.php");
+                        break;
+                    case 'dosen':
+                        header("Location: dosen/dashboard.php");
+                        break;
+                    case 'kaprodi':
+                        header("Location: kaprodi/dashboard.php");
+                        break;
+                    case 'tu':
+                        header("Location: tu/dashboard.php");
+                        break;
+                    default:
+                        $error = "Role tidak dikenali, hubungi admin.";
+                        break;
+                }
                 exit;
             }
         }
