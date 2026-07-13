@@ -231,3 +231,327 @@ td:last-child{
 .selesai{
     background:#6c757d;
 }
+
+/* ================= WELCOME ================= */
+
+.welcome{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    margin-bottom:30px;
+}
+
+.welcome h2{
+    color:#0066ff;
+    margin-bottom:10px;
+}
+
+.welcome p{
+    color:#666;
+    line-height:1.6;
+}
+
+/* ================= FORM (Ajukan Cuti) ================= */
+
+.form-card{
+
+background:#fff;
+
+padding:25px;
+
+border-radius:10px;
+
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+
+width:700px;
+
+margin:0 auto;
+
+}
+
+.form-group{
+
+display:flex;
+
+flex-direction:column;
+
+margin-bottom:18px;
+
+}
+
+.form-group label{
+
+margin-bottom:8px;
+
+font-weight:bold;
+
+}
+
+.form-group input,
+.form-group textarea{
+
+padding:12px;
+
+border:1px solid #ccc;
+
+border-radius:6px;
+
+font-size:15px;
+
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+
+outline:none;
+
+border-color:#0066ff;
+
+}
+
+.btn-submit{
+
+background:#0066ff;
+
+color:#fff;
+
+padding:12px;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-size:16px;
+
+width:100%;
+
+}
+
+.btn-submit:hover{
+
+background:#0049c7;
+
+}
+
+/* ================= TABLE ================= */
+
+.table-card{
+
+    background:#fff;
+
+    padding:25px;
+
+    border-radius:10px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+table th{
+
+    background:#0d6efd;
+
+    color:white;
+
+    padding:14px;
+
+}
+
+table td{
+
+    padding:12px;
+
+    border-bottom:1px solid #ddd;
+
+    text-align:center;
+
+}
+
+table tr:hover{
+
+    background:#f5f5f5;
+
+}
+
+
+/* ================= BADGE ================= */
+
+.badge{
+
+    padding:7px 15px;
+
+    border-radius:30px;
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+.warning{
+
+    background:#ffc107;
+
+    color:black;
+
+}
+
+.info{
+
+    background:#0dcaf0;
+
+}
+
+.success{
+
+    background:#198754;
+
+}
+
+.danger{
+
+    background:#dc3545;
+
+}
+
+.primary{
+
+    background:#0d6efd;
+
+}
+
+
+/* ================= BUTTON ================= */
+
+.btn-detail{
+
+    background:#0d6efd;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:7px 12px;
+
+    border-radius:5px;
+
+}
+
+.btn-detail:hover{
+
+    background:#0b5ed7;
+
+}
+
+.btn-hapus{
+
+    background:#dc3545;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:7px 12px;
+
+    border-radius:5px;
+
+    margin-left:5px;
+
+}
+
+.btn-hapus:hover{
+
+    background:#bb2d3b;
+
+}
+
+/* ================= DETAIL ================= */
+
+.detail-card{
+
+    background:#fff;
+
+    padding:30px;
+
+    border-radius:10px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+
+}
+
+.detail-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.detail-table td{
+
+    padding:15px;
+
+    border-bottom:1px solid #eee;
+
+    text-align:left;
+
+}
+
+.detail-table tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.btn-kembali{
+
+    display:inline-block;
+
+    background:#6c757d;
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    text-decoration:none;
+
+    border-radius:5px;
+
+}
+
+.btn-kembali:hover{
+
+    background:#5a6268;
+
+}
+
+/* ================= ACTIVE SIDEBAR ================= */
+
+.sidebar ul li.active{
+    background:#0056d6;
+    border-radius:8px;
+}
+
+.sidebar ul li.active span{
+    display:block;
+    padding:16px;
+    color:#fff;
+    font-weight:bold;
+    text-align:center;
+    cursor:default;
+}
+
+.sidebar ul li.active a{
+    pointer-events:none;
+}

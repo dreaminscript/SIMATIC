@@ -26,6 +26,9 @@ if (isset($_POST['login'])) {
                     case 'admin':
                         header("Location: admin/dashboard.php");
                         break;
+                    case 'mahasiswa':
+                        header("Location: mahasiswa/dashboard.php");
+                        break;
                     case 'dosen':
                         header("Location: dosen/dashboard.php");
                         break;
