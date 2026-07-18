@@ -3,7 +3,7 @@ require_once '../auth.php';
 cek_akses('mahasiswa');
 require_once '../koneksi.php';
 
-$id_user = intval($_POST['user_id']); 
+$id_user = intval($_POST['user_id']);
 $nama = mysqli_real_escape_string($conn, $_POST['nama']);
 $nim = mysqli_real_escape_string($conn, $_POST['nim']);
 $alasan = mysqli_real_escape_string($conn, $_POST['alasan']);
@@ -14,11 +14,27 @@ $status = "Menunggu Dosen";
 $namaFile = NULL;
 $uploadSuccess = true;
 $errorMessage = '';
+$querySuccess = false;
 
-if (isset($_FILES['surat']) && $_FILES['surat']['error'] === UPLOAD_ERR_OK) {
+$cek_aktif = mysqli_query($conn, "
+    SELECT id_cuti FROM cuti 
+    WHERE id_user = '$id_user' 
+    AND (
+        status IN ('Menunggu Dosen', 'Menunggu Kaprodi', 'Diproses TU') 
+        OR 
+        (status NOT IN ('Ditolak Dosen', 'Ditolak Kaprodi') AND tanggal_selesai >= CURDATE())
+    )
+");
+
+if (mysqli_num_rows($cek_aktif) > 0) {
+    $uploadSuccess = false;
+    $errorMessage = "Gagal! Anda masih memiliki pengajuan yang sedang diproses atau sedang dalam masa cuti aktif.";
+}
+
+if ($uploadSuccess && isset($_FILES['surat']) && $_FILES['surat']['error'] === UPLOAD_ERR_OK) {
     $file = $_FILES['surat']['name'];
     $tmp = $_FILES['surat']['tmp_name'];
-    $folder = "../assets/uploads/"; 
+    $folder = "../assets/uploads/";
 
     if (!is_dir($folder)) {
         mkdir($folder, 0777, true);
@@ -32,8 +48,6 @@ if (isset($_FILES['surat']) && $_FILES['surat']['error'] === UPLOAD_ERR_OK) {
         $errorMessage = "Gagal mengunggah file surat pendukung.";
     }
 }
-
-$querySuccess = false;
 
 if ($uploadSuccess) {
     $suratValue = $namaFile ? "'" . $namaFile . "'" : "NULL";
@@ -50,13 +64,20 @@ if ($uploadSuccess) {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memproses Pengajuan...</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }</style>
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
 </head>
+
 <body>
     <script>
         <?php if ($querySuccess): ?>
@@ -72,7 +93,7 @@ if ($uploadSuccess) {
         <?php else: ?>
             Swal.fire({
                 icon: 'error',
-                title: 'Gagal!',
+                title: 'Pengajuan Ditolak!',
                 text: '<?= $errorMessage ?>',
                 confirmButtonColor: '#d33',
                 confirmButtonText: 'Kembali'
@@ -82,4 +103,5 @@ if ($uploadSuccess) {
         <?php endif; ?>
     </script>
 </body>
+
 </html>
