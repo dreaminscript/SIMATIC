@@ -1,11 +1,7 @@
 <?php
-session_start();
-include "../koneksi.php";
-
-if (!isset($_SESSION['login'])) {
-    header("Location: ../login.php");
-    exit;
-}
+require_once '../auth.php';
+cek_akses('mahasiswa');
+require_once '../koneksi.php';
 
 if (!isset($_GET['id'])) {
     header("Location: riwayat.php");
@@ -14,58 +10,85 @@ if (!isset($_GET['id'])) {
 
 $username = $_SESSION['username'];
 
-// Ambil data user yang login
 $user = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
 $dataUser = mysqli_fetch_assoc($user);
+$id_user = $dataUser['id_user'];
 
 $id = intval($_GET['id']);
+$error_msg = "";
+$success_msg = "";
 
-// Cek apakah data milik user yang login
 $query = mysqli_query($conn, "
     SELECT *
     FROM cuti
-    WHERE id = '$id'
-    AND user_id = '".$dataUser['id']."'
+    WHERE id_cuti = '$id'
+    AND id_user = '$id_user'
 ");
 
 if (mysqli_num_rows($query) == 0) {
+    $error_msg = "Data tidak ditemukan atau bukan milik Anda!";
+} else {
+    $data = mysqli_fetch_assoc($query);
 
-    echo "<script>
-            alert('Data tidak ditemukan!');
-            window.location='riwayat.php';
-          </script>";
+    if ($data['status'] != "Menunggu Dosen") {
+        $error_msg = "Pengajuan yang sudah diproses tidak dapat dibatalkan.";
+    } else {
+        if (!empty($data['surat'])) {
+            $file = "../assets/uploads/" . $data['surat'];
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
 
-    exit;
-}
+        $hapus = mysqli_query($conn, "DELETE FROM cuti WHERE id_cuti='$id'");
 
-$data = mysqli_fetch_assoc($query);
-
-// Hanya boleh dihapus jika status masih Menunggu
-if ($data['status'] != "Menunggu") {
-
-    echo "<script>
-            alert('Pengajuan yang sudah diproses tidak dapat dihapus.');
-            window.location='riwayat.php';
-          </script>";
-
-    exit;
-}
-
-// Hapus file surat jika ada
-if (!empty($data['surat'])) {
-
-    $file = "../uploads/" . $data['surat'];
-
-    if (file_exists($file)) {
-        unlink($file);
+        if ($hapus) {
+            $success_msg = "Pengajuan cuti berhasil dibatalkan dan dihapus.";
+        } else {
+            $error_msg = "Gagal menghapus data dari database.";
+        }
     }
 }
-
-// Hapus data dari database
-mysqli_query($conn, "DELETE FROM cuti WHERE id='$id'");
-
-echo "<script>
-        alert('Pengajuan berhasil dihapus.');
-        window.location='riwayat.php';
-      </script>";
 ?>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memproses Pembatalan...</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        <?php if ($success_msg != ""): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Dibatalkan!',
+                text: '<?= $success_msg ?>',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                window.location = 'riwayat.php';
+            });
+        <?php elseif ($error_msg != ""): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '<?= $error_msg ?>',
+                confirmButtonColor: '#0d6efd'
+            }).then(() => {
+                window.location = 'riwayat.php';
+            });
+        <?php endif; ?>
+    </script>
+</body>
+
+</html>

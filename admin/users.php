@@ -8,7 +8,7 @@ if (isset($_POST['update_role'])) {
     $id_user = $_POST['id_user'];
     $role_baru = $_POST['role_baru'];
 
-    $query_update = "UPDATE users SET role = '$role_baru' WHERE id = '$id_user'";
+    $query_update = "UPDATE users SET role = '$role_baru' WHERE id_user = '$id_user'";
 
     if (mysqli_query($conn, $query_update)) {
         $pesan_sukses = "Role user berhasil diperbarui!";
@@ -20,12 +20,11 @@ if (isset($_POST['update_role'])) {
 $keyword = "";
 if (isset($_GET['cari_btn'])) {
     $keyword = $_GET['keyword'];
-    $query = "SELECT * FROM users WHERE username LIKE '%$keyword%' OR role LIKE '%$keyword%' ORDER BY id ASC";
+    $query = "SELECT * FROM users WHERE username LIKE '%$keyword%' OR role LIKE '%$keyword%' ORDER BY id_user ASC";
 } else {
-    $query = "SELECT * FROM users ORDER BY id ASC";
+    $query = "SELECT * FROM users ORDER BY id_user ASC";
 }
 $result = mysqli_query($conn, $query);
-// ------------------------
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -107,7 +106,7 @@ $result = mysqli_query($conn, $query);
                                 <td class="text-start fw-bold"><?= htmlspecialchars(!empty($row['nama']) ? $row['nama'] : $row['username']) ?></td>
                                 <td>
                                     <form action="" method="POST" style="margin: 0;">
-                                        <input type="hidden" name="id_user" value="<?= $row['id'] ?>">
+                                        <input type="hidden" name="id_user" value="<?= $row['id_user'] ?>">
                                         <input type="hidden" name="update_role" value="1">
 
                                         <select name="role_baru" class="form-select form-select-sm select-role w-50 mx-auto <?= $bg_class ?>" onchange="this.form.submit()">
