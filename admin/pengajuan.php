@@ -18,18 +18,51 @@ $result_data = mysqli_query($conn, $query_data);
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Data Pengajuan - SIMATIC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f4f7f6; display: flex; min-height: 100vh; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .main-content { flex-grow: 1; padding: 20px; overflow-y: auto; animation: fadeIn 0.5s ease-out; }
-        .card-stat { border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 12px; }
-        .table-responsive { border-radius: 12px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .card-stat {
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+        }
+
+        .table-responsive {
+            border-radius: 12px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <?php include 'sidebar.php'; ?>
@@ -78,11 +111,16 @@ $result_data = mysqli_query($conn, $query_data);
                             $no = 1;
                             while ($row = mysqli_fetch_assoc($result_data)):
                                 $status = $row['status'];
-                                
-                                if ($status == 'Disetujui') { $badge_class = 'bg-success'; } 
-                                elseif (strpos($status, 'Ditolak') !== false) { $badge_class = 'bg-danger'; } 
-                                elseif ($status == 'Dicetak' || $status == 'Selesai') { $badge_class = 'bg-secondary'; } 
-                                else { $badge_class = 'bg-warning text-dark'; }
+
+                                if ($status == 'Disetujui') {
+                                    $badge_class = 'bg-success';
+                                } elseif (strpos($status, 'Ditolak') !== false) {
+                                    $badge_class = 'bg-danger';
+                                } elseif ($status == 'Dicetak' || $status == 'Selesai') {
+                                    $badge_class = 'bg-secondary';
+                                } else {
+                                    $badge_class = 'bg-warning text-dark';
+                                }
                         ?>
                                 <tr>
                                     <td class="text-muted fw-semibold"><?= $no++ ?></td>
@@ -92,7 +130,7 @@ $result_data = mysqli_query($conn, $query_data);
                                     </td>
                                     <td><?= date('d M Y', strtotime($row['tanggal_pengajuan'])) ?></td>
                                     <td>
-                                        <span class="text-primary fw-semibold"><?= date('d M Y', strtotime($row['tanggal_mulai'])) ?></span> <br> s/d <br> 
+                                        <span class="text-primary fw-semibold"><?= date('d M Y', strtotime($row['tanggal_mulai'])) ?></span> <br> s/d <br>
                                         <span class="text-danger fw-semibold"><?= date('d M Y', strtotime($row['tanggal_selesai'])) ?></span>
                                     </td>
                                     <td class="text-start text-truncate" style="max-width: 150px;" title="<?= htmlspecialchars($row['alasan']) ?>">
@@ -107,10 +145,10 @@ $result_data = mysqli_query($conn, $query_data);
                                         <a href="hapus_pengajuan.php?id=<?= $row['id_cuti'] ?>" class="btn btn-sm btn-outline-danger fw-bold px-3" onclick="return confirm('Apakah Anda yakin ingin menghapus data pengajuan cuti ini secara permanen?');">Hapus</a>
                                     </td>
                                 </tr>
-                        <?php 
+                            <?php
                             endwhile;
-                        } else { 
-                        ?>
+                        } else {
+                            ?>
                             <tr>
                                 <td colspan="7" class="py-5 text-muted text-center fw-semibold">Belum ada data pengajuan cuti saat ini.</td>
                             </tr>
@@ -124,4 +162,5 @@ $result_data = mysqli_query($conn, $query_data);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
